@@ -1,0 +1,27 @@
+{
+  "name": "seneca-demo-logger",
+  "version": "0.0.1",
+  "description": "Seneca logging plugin that generates nice logs for demos",
+  "main": "demo-logger.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rjrodger/seneca-demo-logger.git"
+  },
+  "keywords": [
+    "seneca",
+    "demo",
+    "logger"
+  ],
+  "author": "Richard Rodger (http://richardrodger.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rjrodger/seneca-demo-logger/issues"
+  },
+  "homepage": "https://github.com/rjrodger/seneca-demo-logger",
+  "dependencies": {
+    "jsonic": "^0.2.2"
+  }
+}
