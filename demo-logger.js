@@ -39,7 +39,7 @@ logging.preload = function () {
       if( content ) {
         delete content.toString
         delete content.inspect
-        entry.push( Util.inspect( content ).replace(/\n/g,' ') )
+        entry.push( Util.inspect( content ).replace(/[ \t]+\n/g,' ') )
       }
 
       console.log(entry.join('\t'))
