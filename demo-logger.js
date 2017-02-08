@@ -21,25 +21,41 @@ logging.preload = function () {
   var logspec = so.log
 
   var logger = function demo_logger (seneca, data) {
-    if( 'act' === data.kind 
-        && !~data.pattern.indexOf('role:seneca')
-        && !~data.pattern.indexOf('role:basic')
-        && !~data.pattern.indexOf('role:transport')
-        && !~data.pattern.indexOf('role:web')
-        && !~data.pattern.indexOf('role:entity')
-        && !~data.pattern.indexOf('init:')
-      ) 
-    {
+    if( 'act' === data.kind ) {
       var entry = ['\t']
       entry.push(data.case)
       entry.push(data.msg && data.msg.meta$ && data.msg.meta$.id || '-')
-      entry.push(data.pattern)
 
-      var content = seneca.util.clean( 'IN' === data.case ? data.msg : data.result )
-      if( content ) {
-        delete content.toString
-        delete content.inspect
-        entry.push( Util.inspect( content ).replace(/[ \t]+\n/g,' ') )
+      if( 'ERR' === data.case ) {
+        entry.push(data.err)
+      }
+      else if( data.pattern 
+               && !~data.pattern.indexOf('role:seneca')
+               && !~data.pattern.indexOf('role:basic')
+               && !~data.pattern.indexOf('role:transport')
+               && !~data.pattern.indexOf('role:web')
+               && !~data.pattern.indexOf('role:entity')
+               && !~data.pattern.indexOf('init:')
+             ) 
+      {
+        entry.push(data.pattern)
+
+        var content = seneca.util.clean( 'IN' === data.case ? data.msg : data.result )
+        if( content ) {
+          delete content.toString
+          delete content.inspect
+
+          Object.keys(content).forEach(function (key) {
+            if (key.match(/^__[^_]*__$/)) {
+              delete content[key]
+            }
+          })
+
+          entry.push( Util.inspect( content ).replace(/[ \t]+\n/g,' ') )
+        }
+      }
+      else {
+        return
       }
 
       console.log(entry.join('\t'))
